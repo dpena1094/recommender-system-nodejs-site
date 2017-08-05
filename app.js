@@ -3,15 +3,19 @@ var expressValidator = require('express-validator');
 var expressSession = require('express-session');
 var path = require('path');
 var bodyParser = require('body-parser');
+var compression = require('compression');
+var helmet = require('helmet');
 
 var router = require('./route');
 
 var app = express();
 
-const port = 9000;
+const port = 80;
 
 app.set('view engine', 'ejs');
 
+app.use(compression());
+app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(expressValidator());
