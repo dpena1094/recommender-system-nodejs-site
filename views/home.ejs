@@ -1,0 +1,45 @@
+<html>
+        <head>
+                <title>Reca Movie - Homepage</title>
+                <meta name="google-signin-client_id" content="113718385985-mo31stqbdsrb40d4k6ddpqco20poeid0.apps.googleusercontent.com">
+                <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script type="text/javascript" src="script/home.js"></script>
+        </head>
+
+        <body>
+                <script>
+                window.fbAsyncInit = function() {
+                        FB.init({
+                                appId      : '932660516887269',
+                                cookie     : true,
+                                xfbml      : true,
+                                version    : 'v2.8'
+                        });
+                        //FB.AppEvents.logPageView();
+
+                        FB.getLoginStatus(function (response) {
+                                console.log('Facebook:', 'Checking session.');
+
+                                checkFacebookSession(response);
+                        });
+                };
+
+                (function(d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) { return; }
+                        js = d.createElement(s); js.id = id;
+                        js.src = '//connect.facebook.net/en_US/sdk.js';
+                        fjs.parentNode.insertBefore(js, fjs);
+                } (document, 'script', 'facebook-jssdk'));
+                </script>
+                Hello, <% if (locals.fn) { %><span><%= fn %></span><% } %>!
+                <br />
+                <br />
+                <% if (locals.msg) { %><span><%= msg %></span><% } %>
+                <br />
+                <a href="#" id="endSession">Logout!</a>
+
+                <script src="https://apis.google.com/js/platform.js?onload=checkGoogleSession" async defer></script>
+        </body>
+</html>

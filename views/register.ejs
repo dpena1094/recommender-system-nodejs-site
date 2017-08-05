@@ -1,0 +1,34 @@
+<html>
+        <head>
+                <title>Reca Movie - Registration</title>
+                <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+                <link href="style/apis.css" rel="stylesheet" type="text/css" />
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script type="text/javascript" src="script/register.js"></script>
+                <script src="script/validRegister.js"></script>
+        </head>
+
+        <body>
+                Hello, Registration!
+                <br />
+                <br />
+                <form action="/register" class="login-form" method="post">
+                        <% if (locals.errs) { %>
+                                <% for (var val in errs) { %>
+                                        <span><%= errs[val].msg %></span><br />
+                                <% } %>
+                        <% } %>
+                        <% if (locals.msg) { %><span><%= msg %></span><% } %>
+                        <input type="text" id="firstname" class="text-input" placeholder="First name" name="firstname" />
+                        <input type="text" id="lastname" class="text-input" placeholder="Last name" name="lastname" />
+                        <input type="text" id="email" class="text-input" placeholder="Email" name="email" />
+                        <input type="password" id="password" class="text-input" placeholder="Password" name="password" />
+                        <input type="password" id="confirm" class="text-input" placeholder="Confirm" name="confirm" />
+                        <div id="register" class="register">
+                                <p>By clicking "Register" you indicate that you have read and agree to the Terms of Service and Privacy Policy.</p>
+                        </div>
+                        <input type="submit" id="submit" class="login" value="Register" />
+                </form>
+                <input type="button" id="register-redirect" class="login" value="Cancel" />
+        </body>
+</html>
