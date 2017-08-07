@@ -248,7 +248,7 @@ router.get('/privacy-policy', function (request, response) {
 	response.render('privacy');
 });
 
-router.get('/terms', function (request, response) {
+router.get('/terms-of-service', function (request, response) {
 	response.render('terms');
 });
 
