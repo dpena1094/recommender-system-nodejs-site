@@ -1,15 +1,15 @@
 'use strict';
 
-var express = require('express');
-var expressValidator = require('express-validator');
-var expressSession = require('express-session');
-var MongoStore = require('connect-mongo')(expressSession);
-var path = require('path');
-var bodyParser = require('body-parser');
+const express = require('express');
+const expressValidator = require('express-validator');
+const expressSession = require('express-session');
+const MongoStore = require('connect-mongo')(expressSession);
+const path = require('path');
+const bodyParser = require('body-parser');
 //var compression = require('compression');
-var helmet = require('helmet');
+const helmet = require('helmet');
 
-var router = require('./route');
+const router = require('./route');
 
 var app = express();
 

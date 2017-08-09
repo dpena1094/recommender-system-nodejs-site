@@ -1,9 +1,9 @@
 'use strict';
 
-var express = require('express');
-var mysql = require('mysql');
+const express = require('express');
+const mysql = require('mysql');
 
-var crypt = require('./phash');
+const crypt = require('./phash');
 
 var router = express.Router();
 
@@ -17,7 +17,7 @@ var pool = mysql.createPool({
 
 var loggedIn = function (request, response) {
         if (request.session.login) {
-                response.redirect('/home');
+                response.redirect('/rate');
 
                 return 1;
         }
@@ -84,7 +84,7 @@ router.post('/', function (request, response) {
                                 request.session.login = true;
                                 request.session.email = request.body.email;
                                 request.session.firstname = res.firstname;
-                                response.redirect('/home?msg=Logged+in+successfully%21');
+                                response.redirect('/rate?msg=Logged+in+successfully%21');
                         });
 
                         con.on('error', function (err) {
@@ -240,26 +240,26 @@ router.get('/logout', function (request, response) {
         response.redirect('/?msg=Logged+out+successfully%21');
 });
 
-router.get('/home', function (request, response) {
+router.get('/rate', function (request, response) {
         if (loggedOut(request, response)) return;
 
-	response.render('home', { msg: request.query.msg, fn: request.session.firstname });
+	response.render('rate', { msg: request.query.msg, fn: request.session.firstname });
 });
 
 router.get('/privacy-policy', function (request, response) {
-	response.render('privacy');
+	response.render('legal/privacy');
 });
 
 router.get('/terms-of-service', function (request, response) {
-	response.render('terms');
+	response.render('legal/terms');
 });
 
 router.use(function (request, response) {
-        response.status(404).render('404', { url: request.url });
+        response.status(404).render('errors/404', { url: request.url });
 });
 
 router.use(function (request, response) {
-        response.status(500).render('500');
+        response.status(500).render('errors/500');
 });
 
 module.exports = router;

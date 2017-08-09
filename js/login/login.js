@@ -21,7 +21,7 @@ function loginSession(id, email, firstname, lastname) {
                         response = JSON.parse(response)
                         console.log('System:', response.status);
                         if (response.status) {
-                                window.location = '/home?msg=Logged+in+successfully%21';
+                                window.location = '/rate?msg=Logged+in+successfully%21';
                         } else {
                                 console.log('System:', 'API login failed!');
                                 window.location = '/?msg=Connection+failed%21';

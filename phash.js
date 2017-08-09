@@ -1,6 +1,6 @@
 'use strict';
 
-var crypt = require('crypto');
+const crypt = require('crypto');
 
 const pepper = 'DP7/8yX~H!jm],KU';
 
