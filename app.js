@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var expressValidator = require('express-validator');
 var expressSession = require('express-session');

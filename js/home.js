@@ -1,3 +1,4 @@
+'use strict';
 
 var gSession = false, fSession = false;
 

@@ -1,3 +1,5 @@
+'use strict';
+
 // REGISTER
 $(document).ready(function () {
         $('#register').click(function () {

@@ -1,3 +1,5 @@
+'use strict';
+
 $(document).ready(function () {
         var cstyle = { 'border-color': 'rgba(255, 45, 45, .8)', 'border-width': '0px 0px 2px 0px' };
 
