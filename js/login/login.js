@@ -19,9 +19,10 @@ function loginSession(id, email, firstname, lastname) {
                 type: 'POST',
                 success: function(response) {
                         response = JSON.parse(response)
-                        console.log('System:', response.status);
+                        //console.log('System:', response.status);
                         if (response.status) {
-                                window.location = '/rate?msg=Logged+in+successfully%21';
+                                if (response.status == 2) window.location = '/';
+                                else window.location = '/rate?msg=Logged+in+successfully%21';
                         } else {
                                 console.log('System:', 'API login failed!');
                                 window.location = '/?msg=Connection+failed%21';

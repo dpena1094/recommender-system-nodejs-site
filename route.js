@@ -59,7 +59,7 @@ router.post('/', function (request, response) {
                                 return;
                         }
 
-                        var sql = 'SELECT password, nacl, firstname FROM users WHERE email = ?';
+                        var sql = 'SELECT id, password, nacl, firstname, verified FROM users WHERE email = ?';
                         var value = request.body.email;
                         con.query(sql, [value], function (err, result) {
                                 con.release();
@@ -69,7 +69,6 @@ router.post('/', function (request, response) {
                                         return;
                                 }
 
-                                console.log(result);
                                 if (result.length <= 0) {
                                         response.render('login', { msg: 'Email or password is invalid. Try again.' });
                                         return;
@@ -81,7 +80,15 @@ router.post('/', function (request, response) {
                                         return;
                                 }
 
+                                /*
+                                if (!res.verified) {
+                                        response.render('login', { msg: 'Email is not yet verified.' });
+                                        return;
+                                }
+                                */
+
                                 request.session.login = true;
+                                request.session.userId = res.id;
                                 request.session.email = request.body.email;
                                 request.session.firstname = res.firstname;
                                 response.redirect('/rate?msg=Logged+in+successfully%21');
@@ -135,7 +142,6 @@ router.post('/register', function (request, response) {
                                         return;
                                 }
 
-                                console.log(result);
                                 if (result.length > 0) {
                                         con.release();
                                         response.render('register', { msg: 'That email is taken. Try another.' });
@@ -148,9 +154,10 @@ router.post('/register', function (request, response) {
                                 if (!firstname || firstname == '') firstname = 'John';
                                 if (!lastname || lastname == '') lastname = 'Doe';
                                 var password = crypt.sha256Crypt(request.body.password);
+                                var token = crypt.token(email);
 
-                                var sql = 'INSERT INTO users (email, password, nacl, firstname, lastname) VALUES ?';
-                                var values = [[email, password.hash, password.salt, firstname, lastname]];
+                                var sql = 'INSERT INTO users (email, password, nacl, firstname, lastname, token) VALUES ?';
+                                var values = [[email, password.hash, password.salt, firstname, lastname, token]];
                                 con.query(sql, [values], function (err, result) {
                                         con.release();
                                         if (err) {
@@ -160,6 +167,7 @@ router.post('/register', function (request, response) {
                                         }
 
                                         response.redirect('/?msg=Registration+successful%21');
+                                        //response.redirect('/?msg=Registration+successful%21+Check+your+email+to+verify+your+account%21');
                                 });
                         });
 
@@ -180,7 +188,7 @@ router.post('/ajax-api-session', function (request, response) {
                         return;
                 }
 
-                var sql = 'SELECT email FROM users WHERE email = ?';
+                var sql = 'SELECT id FROM users WHERE email = ?';
                 var value = request.body.email;
                 con.query(sql, [value], function (err, result) {
                         if (err) {
@@ -190,10 +198,10 @@ router.post('/ajax-api-session', function (request, response) {
                                 return;
                         }
 
-                        console.log(result);
                         if (result.length > 0) {
                                 con.release();
                                 request.session.login = true;
+                                request.session.userId = result[0].id;
                                 request.session.email = request.body.email;
                                 request.session.firstname = request.body.firstname;
                                 response.send(JSON.stringify({ status: 1 }));
@@ -206,9 +214,10 @@ router.post('/ajax-api-session', function (request, response) {
                         if (!firstname || firstname == '') firstname = 'John';
                         if (!lastname || lastname == '') lastname = 'Doe';
                         var password = crypt.sha256Crypt(request.body.id);
+                        var token = crypt.token(email);
 
-                        var sql = 'INSERT INTO users (email, password, nacl, firstname, lastname) VALUES ?';
-                        var values = [[email, password.hash, password.salt, firstname, lastname]];
+                        var sql = 'INSERT INTO users (email, password, nacl, firstname, lastname, token, verified) VALUES ?';
+                        var values = [[email, password.hash, password.salt, firstname, lastname, token, 1]];
                         con.query(sql, [values], function (err, result) {
                                 con.release();
                                 if (err) {
@@ -216,13 +225,50 @@ router.post('/ajax-api-session', function (request, response) {
                                         response.send(JSON.stringify({ status: 0 }));
                                         return;
                                 }
-
+                                /*
                                 request.session.login = true;
+                                request.session.userId = res;
                                 request.session.email = email;
                                 request.session.firstname = firstname;
-                                response.send(JSON.stringify({ status: 1 }));
+                                */
+                                response.send(JSON.stringify({ status: 2 }));
                                 return;
                         });
+                });
+
+                con.on('error', function (err) {
+                        console.log('Connection error: ', err);
+                        response.send(JSON.stringify({ status: 0 }));
+                        return;
+                });
+        });
+});
+
+router.get('/verify', function (request, response) {
+        response.send("Verifying temporarily disabled.");
+});
+
+router.post('/ajax-rate', function (request, response) {
+        //console.log(request.session.userId);
+        pool.getConnection(function (err, con) {
+                if (err) {
+                        console.log('Connection error: ', err);
+                        response.send(JSON.stringify({ status: 0 }));
+                        return;
+                }
+
+                var sql = 'INSERT INTO ratings (userId, movieId, rating) VALUES ?';
+                var values = [[request.session.userId, request.body.movieId, request.body.rating]];
+                con.query(sql, [values], function (err, result) {
+                        con.release();
+                        if (err) {
+                                console.log('Connection error: ', err);
+                                response.send(JSON.stringify({ status: 0 }));
+                                return;
+                        }
+
+                        response.send(JSON.stringify({ status: 1 }));
+                        return;
                 });
 
                 con.on('error', function (err) {

@@ -16,6 +16,12 @@ var hash256 = function (password, salt) {
         return result;
 };
 
+module.exports.token = function (email) {
+        var salt = nacl(16);
+        var hash = hash256(email, salt);
+        return hash;
+};
+
 module.exports.sha256Crypt = function (password) {
         var salt = nacl(16);
         var hash = hash256(password, salt);

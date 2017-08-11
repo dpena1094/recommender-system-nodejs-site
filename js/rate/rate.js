@@ -174,15 +174,42 @@ var myjson=[
                 "URL":"https://images-na.ssl-images-amazon.com/images/M/MV5BZjhkMDM4MWItZTVjOC00ZDRhLThmYTAtM2I5NzBmNmNlMzI1XkEyXkFqcGdeQXVyNDYyMDk5MTU@._V1_SX300.jpg"
         }
 ];
-var counter=0;
-var rated;
-$(document).ready(function(){
-        $("label").click(function(){
-                var temp=myjson[counter].URL;
-                $(this).parents().eq(3).children().eq(0).children().eq(0).fadeOut(400, function() {
-                        $(this).attr("src", temp);
-                })
-                .fadeIn(400);
-                counter++;
+
+$(document).ready(function () {
+        var counter = 0;
+
+        $('img').each(function (index) {
+                $(this).attr('src', myjson[counter].URL);
+                $(this).attr('movie', myjson[counter++].movieId);
+        });
+
+        $('label').click(function () {
+                $(this).parents().eq(3).children().eq(0).children().eq(0).fadeOut(400, function () {
+                        $(this).attr('src', myjson[counter].URL);
+                }).fadeIn(400);
+
+                $(this).attr('movie', myjson[counter++].movieId);
+
+                var data = {
+                        movieId: $(this).attr('movie'),
+                        rating: $(this).next().val()
+                };
+                $.ajax({
+                        url: '/ajax-rate',
+                        data: data,
+                        type: 'POST',
+                        success: function (response) {
+                                response = JSON.parse(response);
+
+                                if (response.status) {
+                                        console.log('System:', response);
+                                } else {
+                                        console.log('System:', 'Rate failed');
+                                }
+                        },
+                        error: function (error) {
+                                console.log('System:', error);
+                        }
+                });
         });
 });
