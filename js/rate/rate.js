@@ -179,37 +179,45 @@ $(document).ready(function () {
         var counter = 0;
 
         $('img').each(function (index) {
-                $(this).attr('src', myjson[counter].URL);
+                $(this).attr('src', myjson[counter].URL).fadeIn(400);
+                $(this).attr('movie', myjson[counter++].movieId);
+        });
+
+        $('img').click(function () {
+                $(this).attr('src', myjson[counter].URL).fadeIn(400);
                 $(this).attr('movie', myjson[counter++].movieId);
         });
 
         $('label').click(function () {
+                let rate = $(this).next().val();
+
                 $(this).parents().eq(3).children().eq(0).children().eq(0).fadeOut(400, function () {
+                        let movie = $(this).attr('movie');
+
                         $(this).attr('src', myjson[counter].URL);
-                }).fadeIn(400);
+                        $(this).attr('movie', myjson[counter++].movieId);
 
-                $(this).attr('movie', myjson[counter++].movieId);
+                        var data = {
+                                movieId: movie,
+                                rating: rate
+                        };
+                        $.ajax({
+                                url: '/ajax-rate',
+                                data: data,
+                                type: 'POST',
+                                success: function (response) {
+                                        response = JSON.parse(response);
 
-                var data = {
-                        movieId: $(this).attr('movie'),
-                        rating: $(this).next().val()
-                };
-                $.ajax({
-                        url: '/ajax-rate',
-                        data: data,
-                        type: 'POST',
-                        success: function (response) {
-                                response = JSON.parse(response);
-
-                                if (response.status) {
-                                        console.log('System:', response);
-                                } else {
-                                        console.log('System:', 'Rate failed');
+                                        if (response.status) {
+                                                console.log('System:', response);
+                                        } else {
+                                                console.log('System:', 'Rate failed');
+                                        }
+                                },
+                                error: function (error) {
+                                        console.log('System:', error);
                                 }
-                        },
-                        error: function (error) {
-                                console.log('System:', error);
-                        }
-                });
+                        });
+                }).fadeIn(400);
         });
 });
