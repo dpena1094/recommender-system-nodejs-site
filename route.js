@@ -4,6 +4,9 @@ const express = require('express');
 const mysql = require('mysql');
 
 const crypt = require('./phash');
+const dynamo = require('./dynamodb');
+const omdb = require('./omdb');
+const databricks = require('./databricks');
 
 var router = express.Router();
 
@@ -89,7 +92,6 @@ router.post('/', function (request, response) {
 
                                 request.session.login = true;
                                 request.session.userId = res.id;
-                                request.session.email = request.body.email;
                                 request.session.firstname = res.firstname;
                                 response.redirect('/rate?msg=Logged+in+successfully%21');
                         });
@@ -202,7 +204,6 @@ router.post('/ajax-api-session', function (request, response) {
                                 con.release();
                                 request.session.login = true;
                                 request.session.userId = result[0].id;
-                                request.session.email = request.body.email;
                                 request.session.firstname = request.body.firstname;
                                 response.send(JSON.stringify({ status: 1 }));
                                 return;
@@ -228,7 +229,6 @@ router.post('/ajax-api-session', function (request, response) {
                                 /*
                                 request.session.login = true;
                                 request.session.userId = res;
-                                request.session.email = email;
                                 request.session.firstname = firstname;
                                 */
                                 response.send(JSON.stringify({ status: 2 }));
@@ -279,6 +279,59 @@ router.post('/ajax-rate', function (request, response) {
         });
 });
 
+router.post('/ajax-databricks', function (request, response) {
+        dynamo.query(request.session.userId, function (err, data) {
+                if (err) {
+                        console.log('Dynamodb error: ', err);
+                        response.send(JSON.stringify({ status: 0 }));
+                        return;
+                } else {
+                        console.log('Databricks: Dynamodb query success');
+                        console.log(data);
+                        //console.log(data);
+                        /*
+                        setTimeout(function () {
+                                console.log('TIMEOUT');
+                        }, 60000);
+                        */
+                        omdb.query(data, function (movies) {
+                                //console.log(res);
+                                console.log('Databricks: OMDB query success');
+                                response.send(JSON.stringify({ status: 1, movies: movies }));
+                                return;
+                        });
+                }
+        });
+        /*
+        databricks.run(request.session.userId, function (err) {
+                if (err) {
+                        console.log('Databricks error: ', err);
+                        response.send(JSON.stringify({ status: 0 }));
+                        return;
+                } else {
+                        console.log('Databricks: Job success');
+
+                        dynamo.query(request.session.userId, function (err, data) {
+                                if (err) {
+                                        console.log('Dynamodb error: ', err);
+                                        response.send(JSON.stringify({ status: 0 }));
+                                        return;
+                                } else {
+                                        console.log('Databricks: Dynamodb query success');
+                                        //console.log(data);
+                                        omdb.query(data, function (movies) {
+                                                //console.log(res);
+                                                console.log('Databricks: OMDB query success');
+                                                response.send(JSON.stringify({ status: 1, movies: movies }));
+                                                return;
+                                        });
+                                }
+                        });
+                }
+        });
+        */
+});
+
 router.get('/logout', function (request, response) {
         if (loggedOut(request, response)) return;
 
@@ -290,6 +343,12 @@ router.get('/rate', function (request, response) {
         if (loggedOut(request, response)) return;
 
 	response.render('rate', { msg: request.query.msg, fn: request.session.firstname });
+});
+
+router.get('/recommendations', function (request, response) {
+        if (loggedOut(request, response)) return;
+
+        response.render('recommendations', { fn: request.session.firstname });
 });
 
 router.get('/privacy-policy', function (request, response) {

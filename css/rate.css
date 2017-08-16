@@ -57,6 +57,10 @@ span:hover{
         }
 }
 
+img {
+        border-radius: 8px;
+}
+
 img:hover{
         box-shadow:
         1px 1px #95967c,
