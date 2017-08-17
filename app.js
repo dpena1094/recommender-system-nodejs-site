@@ -3,6 +3,7 @@
 const express = require('express');
 const expressValidator = require('express-validator');
 const expressSession = require('express-session');
+const favicon = require('serve-favicon');
 const MongoStore = require('connect-mongo')(expressSession);
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 
 //app.use(compression());
 app.use(helmet());
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(expressValidator());

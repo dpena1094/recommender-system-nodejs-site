@@ -3,34 +3,31 @@
 const async = require('async');
 const request = require('request');
 
-const link = 'https://www.omdbapi.com/?t=TITLE&apikey=93673820';
+const link = 'https://image.tmdb.org/t/p/w185';
 
-function links(titles) {
-        console.log('creating links');
-        let ret = [];
-
-        for (let i = 0; i < titles.length; ++i) {
-                //titles[i] = titles[i].split(' ').join('+');
-                ret.push(link.replace('TITLE', titles[i]));
-        }
-
-        return ret;
-}
-
-function get(url, callback) {
+function get(title, callback) {
         console.log('requesting');
-        request({ url: url, json: true }, function (err, response, body) {
+        request({
+                url: 'https://api.themoviedb.org/3/search/movie',
+                json: true,
+                qs: {
+                        include_adult: 'false',
+                        page: '1',
+                        language: 'en-US',
+                        api_key: '83fb0f06a2722a26190f6209e74b2af6',
+                        query: title
+                },
+                body: '{}'
+        }, function (err, response, body) {
                 console.log('callback');
-                callback(err, body.Poster);
+                let image = link + body.results[0].poster_path;
+                callback(err, image);
         });
 }
 
 module.exports.query = function (titles, callback) {
-        console.log('quering');
-        let urls = links(titles);
-
         console.log('async requests');
-        async.map(urls, get, function (err, response) {
+        async.map(titles, get, function (err, response) {
                 if (err) {
                         console.log(err);
                 } else {

@@ -10,6 +10,8 @@ var load = function (movies) {
 };
 
 $(document).ready(function () {
+        console.log('System: Document ready');
+
         $.ajax({
                 url: '/ajax-databricks',
                 type: 'POST',
@@ -22,7 +24,7 @@ $(document).ready(function () {
                                 $('#nav-bar a').css({ 'pointer-events': 'auto' });
                                 $('#loading').css({ 'display': 'none' });
                                 $('.rec-title').css({ 'display': 'block' });
-                                //load(response.movies);
+                                load(response.movies);
                         } else {
                                 console.log('System:', 'Databricks failed!');
                                 window.location = '/?rate=Databricks+failed%21';

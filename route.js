@@ -5,7 +5,8 @@ const mysql = require('mysql');
 
 const crypt = require('./phash');
 const dynamo = require('./dynamodb');
-const omdb = require('./omdb');
+//const omdb = require('./omdb');
+const tmdb = require('./tmdb');
 const databricks = require('./databricks');
 
 var router = express.Router();
@@ -288,13 +289,8 @@ router.post('/ajax-databricks', function (request, response) {
                 } else {
                         console.log('Databricks: Dynamodb query success');
                         console.log(data);
-                        //console.log(data);
-                        /*
-                        setTimeout(function () {
-                                console.log('TIMEOUT');
-                        }, 60000);
-                        */
-                        omdb.query(data, function (movies) {
+
+                        tmdb.query(data, function (movies) {
                                 //console.log(res);
                                 console.log('Databricks: OMDB query success');
                                 response.send(JSON.stringify({ status: 1, movies: movies }));
@@ -318,8 +314,9 @@ router.post('/ajax-databricks', function (request, response) {
                                         return;
                                 } else {
                                         console.log('Databricks: Dynamodb query success');
-                                        //console.log(data);
-                                        omdb.query(data, function (movies) {
+                                        console.log(data);
+
+                                        tmdb.query(data, function (movies) {
                                                 //console.log(res);
                                                 console.log('Databricks: OMDB query success');
                                                 response.send(JSON.stringify({ status: 1, movies: movies }));

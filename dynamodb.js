@@ -11,6 +11,7 @@ AWS.config.update({
 var dynamo = new AWS.DynamoDB.DocumentClient();
 
 module.exports.query = function(userId, func) {
+        console.log('Dynamodb: Running query');
         var array = [];
 
         var params = {

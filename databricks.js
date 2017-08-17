@@ -55,7 +55,7 @@ module.exports.run = function (userId, callback) {
                                                 return;
                                         }
                                 });
-                        }, 10000);
+                        }, 12000);
                 }
         });
 };
