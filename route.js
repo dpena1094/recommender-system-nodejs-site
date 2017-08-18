@@ -281,6 +281,7 @@ router.post('/ajax-rate', function (request, response) {
 });
 
 router.post('/ajax-databricks', function (request, response) {
+        /*
         dynamo.query(request.session.userId, function (err, data) {
                 if (err) {
                         console.log('Dynamodb error: ', err);
@@ -298,7 +299,7 @@ router.post('/ajax-databricks', function (request, response) {
                         });
                 }
         });
-        /*
+        */
         databricks.run(request.session.userId, function (err) {
                 if (err) {
                         console.log('Databricks error: ', err);
@@ -326,7 +327,6 @@ router.post('/ajax-databricks', function (request, response) {
                         });
                 }
         });
-        */
 });
 
 router.get('/logout', function (request, response) {
