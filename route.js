@@ -157,10 +157,10 @@ router.post('/register', function (request, response) {
                                 if (!firstname || firstname == '') firstname = 'John';
                                 if (!lastname || lastname == '') lastname = 'Doe';
                                 var password = crypt.sha256Crypt(request.body.password);
-                                var token = crypt.token(email);
+                                //var token = crypt.token(email);
 
-                                var sql = 'INSERT INTO users (email, password, nacl, firstname, lastname, token) VALUES ?';
-                                var values = [[email, password.hash, password.salt, firstname, lastname, token]];
+                                var sql = 'INSERT INTO users (email, password, nacl, firstname, lastname) VALUES ?';
+                                var values = [[email, password.hash, password.salt, firstname, lastname]];
                                 con.query(sql, [values], function (err, result) {
                                         con.release();
                                         if (err) {
@@ -216,10 +216,10 @@ router.post('/ajax-api-session', function (request, response) {
                         if (!firstname || firstname == '') firstname = 'John';
                         if (!lastname || lastname == '') lastname = 'Doe';
                         var password = crypt.sha256Crypt(request.body.id);
-                        var token = crypt.token(email);
+                        //var token = crypt.token(email);
 
-                        var sql = 'INSERT INTO users (email, password, nacl, firstname, lastname, token, verified) VALUES ?';
-                        var values = [[email, password.hash, password.salt, firstname, lastname, token, 1]];
+                        var sql = 'INSERT INTO users (email, password, nacl, firstname, lastname, verified) VALUES ?';
+                        var values = [[email, password.hash, password.salt, firstname, lastname, 1]];
                         con.query(sql, [values], function (err, result) {
                                 con.release();
                                 if (err) {
