@@ -12,7 +12,7 @@ var myjson = [
         {
                 "Name":"Star Wars: Episode VII - The Force Awakens",
                 "movieId":122886,
-                "URL":"https://images-na.ssl-images-amazon.com/images/M/MV5BMzk4ZTNjMjUtOGE3OS00Y2FlLWE5NjAtYjZmM2ExMzY2YzVlXkEyXkFqcGdeQXVyNzMxMzYyOTI@._V1_SX300.jpg"
+                "URL":"https://images-na.ssl-images-amazon.com/images/M/MV5BOTAzODEzNDAzMl5BMl5BanBnXkFtZTgwMDU1MTgzNzE@._V1_SY1000_CR0,0,677,1000_AL_.jpg"
         },
         {
                 "Name":"Deadpool",
@@ -87,7 +87,7 @@ var myjson = [
         {
                 "Name":"Seven Samurai",
                 "movieId":2019,
-                "URL":"https://images-na.ssl-images-amazon.com/images/M/MV5BMTc5MDY1MjU5MF5BMl5BanBnXkFtZTgwNDM2OTE4MzE@._V1_SX300.jpg"
+                "URL":"https://www.gstatic.com/tv/thumb/movieposters/5588/p5588_p_v8_au.jpg"
         },
         {
                 "Name":"Monty Python and the Holy Grail",

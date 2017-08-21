@@ -281,25 +281,6 @@ router.post('/ajax-rate', function (request, response) {
 });
 
 router.post('/ajax-databricks', function (request, response) {
-        /*
-        dynamo.query(request.session.userId, function (err, data) {
-                if (err) {
-                        console.log('Dynamodb error: ', err);
-                        response.send(JSON.stringify({ status: 0 }));
-                        return;
-                } else {
-                        console.log('Databricks: Dynamodb query success');
-                        console.log(data);
-
-                        tmdb.query(data, function (movies) {
-                                //console.log(res);
-                                console.log('Databricks: OMDB query success');
-                                response.send(JSON.stringify({ status: 1, movies: movies }));
-                                return;
-                        });
-                }
-        });
-        */
         databricks.run(request.session.userId, function (err) {
                 if (err) {
                         console.log('Databricks error: ', err);
@@ -314,12 +295,12 @@ router.post('/ajax-databricks', function (request, response) {
                                         response.send(JSON.stringify({ status: 0 }));
                                         return;
                                 } else {
-                                        console.log('Databricks: Dynamodb query success');
+                                        console.log('Dynamodb: Query success');
                                         console.log(data);
 
                                         tmdb.query(data, function (movies) {
                                                 //console.log(res);
-                                                console.log('Databricks: OMDB query success');
+                                                console.log('TMDB: Query success');
                                                 response.send(JSON.stringify({ status: 1, movies: movies }));
                                                 return;
                                         });
