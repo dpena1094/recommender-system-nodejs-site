@@ -40,7 +40,6 @@ function checkGoogleSession() {
 
         gapi.load('auth2', function () {
                 gapi.auth2.init({
-                        //client_id: '113718385985-mo31stqbdsrb40d4k6ddpqco20poeid0.apps.googleusercontent.com',
                         //scope: 'additional_scope'
                 }).then(function (auth2) {
                         if (auth2.isSignedIn.get()) {

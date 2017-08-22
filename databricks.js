@@ -2,7 +2,7 @@
 
 const request = require('request');
 
-const uri = 'https://matthew.jones.250@my.csun.edu:nuduqup7@dbc-7a79d4a5-6e25.cloud.databricks.com/api/2.0/jobs/';
+const uri = 'https://<<USERNAME>>:<<PASSWORD>>@<<DATABRICKS ADDRESS>>/api/2.0/jobs/';
 
 var check = function (run_id, callback) {
         request({

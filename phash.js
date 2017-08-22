@@ -2,7 +2,7 @@
 
 const crypt = require('crypto');
 
-const pepper = 'DP7/8yX~H!jm],KU';
+const pepper = '<<SECRET KEY>>';
 
 var nacl = function (length) {
         return crypt.randomBytes(Math.ceil(length/2)).toString('hex').slice(0, length);

@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(expressSession({
-	secret: 'K0Ur98j/3yX R~XHH!jmN]LWX/,?DP',
+	secret: '<<SECRET KEY>>',
 	saveUninitialized: false,
 	resave: false,
 	store: new MongoStore({

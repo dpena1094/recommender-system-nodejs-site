@@ -3,7 +3,7 @@
 const async = require('async');
 const request = require('request');
 
-const link = 'https://www.omdbapi.com/?t=TITLE&apikey=93673820';
+const link = 'https://www.omdbapi.com/?t=TITLE&apikey=<<API KEY>>';
 
 function links(titles) {
         console.log('creating links');

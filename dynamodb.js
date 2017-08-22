@@ -3,9 +3,9 @@
 var AWS = require("aws-sdk");
 
 AWS.config.update({
-        region: "us-east-1",
-        endpoint: "https://dynamodb.us-east-1.amazonaws.com",
-        StreamArn: "arn:aws:dynamodb:us-east-1:328779899436:table/rm_predictions"
+        region: "<<AWS REGION>>",
+        endpoint: "<<AWS ENDPOINT ADDRESS>>",
+        StreamArn: "<<AWS STREAMARN>>"
 });
 
 var dynamo = new AWS.DynamoDB.DocumentClient();
@@ -15,7 +15,7 @@ module.exports.query = function(userId, func) {
         var array = [];
 
         var params = {
-                TableName : "rm_predictions",
+                TableName : "<<DYNAMODB TABLE>>",
                 KeyConditionExpression: "#ui = :id",
                 ExpressionAttributeNames:{
                         "#ui": "userId"

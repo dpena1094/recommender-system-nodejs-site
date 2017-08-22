@@ -13,10 +13,10 @@ var router = express.Router();
 
 var pool = mysql.createPool({
         connectionLimit:        '10',
-        host:                   'recamoviedb.ckpibjxnazn6.us-west-2.rds.amazonaws.com',
-        user:                   'recamovieaws',
-        password:               'rmawsdb!',
-        database:               'masterdb'
+        host:                   '<<MYSQL HOST ADDRESS>>',
+        user:                   '<<MYSQL USER>>',
+        password:               '<<MYSQL PASSWORD>>',
+        database:               '<<MYSQL DATABASE>>'
 });
 
 var loggedIn = function (request, response) {
